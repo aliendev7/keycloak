@@ -10,11 +10,11 @@ ENV KC_HOSTNAME=keycloak
 
 # Configuraciones para la base de datos PostgreSQL
 ENV KC_DB=postgres
-ENV KC_DB_URL_HOST=your-database-hostname    # Ej. "postgres.my-render-db.internal"
+ENV KC_DB_URL_HOST=yourdatabasehostname    
 ENV KC_DB_URL_PORT=5432
-ENV KC_DB_USERNAME=your-db-username          # Ej. "myuser"
-ENV KC_DB_PASSWORD=your-db-password          # Ej. "mypassword"
-ENV KC_DB_DATABASE=your-database-name        # Ej. "keycloakdb"
+ENV KC_DB_USERNAME=yourdbusername          
+ENV KC_DB_PASSWORD=yourdbpassword          
+ENV KC_DB_DATABASE=yourdatabasename 
 
 # Inicia Keycloak en modo desarrollo
 CMD ["start-dev"]
