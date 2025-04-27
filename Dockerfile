@@ -1,0 +1,12 @@
+FROM quay.io/keycloak/keycloak:26.2.1
+ENV KEYCLOAK_ADMIN=admin
+ENV KEYCLOAK_ADMIN_PASSWORD=admin
+ENV KC_PROXY=edge
+ENV KC_HOSTNAME=keycloak
+ENV KC_DB=postgres
+ENV KC_DB_URL_HOST=your-database-hostname
+ENV KC_DB_URL_PORT=5432
+ENV KC_DB_USERNAME=your-db-username
+ENV KC_DB_PASSWORD=your-db-password
+ENV KC_DB_DATABASE=your-database-name
+CMD ["start-dev"]
