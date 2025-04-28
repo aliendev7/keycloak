@@ -1,24 +1,24 @@
-FROM quay.io/keycloak/keycloak:26.2.1
+FROM quay.io/keycloak/keycloak:latest as builder
 
-# Variables de administración (valores por defecto)
-
-ENV KC_PROXY=edge
-ENV KC_HOSTNAME_STRICT=true
-#ENV KC_HOSTNAME_STRICT_HTTPS=true
-
-ENV KC_HTTP_HOST=0.0.0.0
-ENV KC_HTTP_PORT=10000
-
-# Configuraciones para la base de datos PostgreSQL
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
 ENV KC_DB=postgres
-ENV KC_DB_URL_HOST=yourdatabasehostname    
-ENV KC_DB_URL_PORT=5432
-ENV KC_DB_USERNAME=yourdbusername          
-ENV KC_DB_PASSWORD=yourdbpassword          
-ENV KC_DB_DATABASE=yourdatabasename 
 
-# Expone el puerto 10000 para que Render lo detecte
-EXPOSE 10000
+WORKDIR /opt/keycloak
 
-# Inicia Keycloak en modo desarrollo
-CMD ["start-dev"]
+RUN keytool -genkeypair -storepass password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname "CN=server" -alias server -ext "SAN:c=DNS:localhost,IP:127.0.0.1" -keystore conf/server.keystore
+
+RUN /opt/keycloak/bin/kc.sh build
+
+FROM quay.io/keycloak/keycloak:latest 
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+WORKDIR /opt/keycloak
+
+ENV KC_DB=postgres
+ENV KC_HTTP_ENABLED=true
+ENV KC_HOSTNAME_STRICT=false
+ENV JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=false"
+ENV JAVA_OPTS_KC_HEAP = "-XX:MaxHeapFreeRatio=30 -XX:MaxRAMPercentage=65"
+
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--proxy-headers", "xforwarded"]
