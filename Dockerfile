@@ -5,8 +5,6 @@ FROM quay.io/keycloak/keycloak:26.2.1
 ENV KC_PROXY=edge
 ENV KC_HOSTNAME_STRICT=true
 #ENV KC_HOSTNAME_STRICT_HTTPS=true
-ENV KC_HOSTNAME_ADMIN_URL=https://keycloakservice.onrender.com
-ENV KC_HOSTNAME_URL=https://keycloakservice.onrender.com
 
 ENV KC_HTTP_HOST=0.0.0.0
 ENV KC_HTTP_PORT=10000
