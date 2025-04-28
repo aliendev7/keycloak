@@ -29,3 +29,4 @@ ENV KC_DB=postgres
 # ENV KC_DB_PASSWORD=<DBPASSWORD>
 ENV KC_HOSTNAME=localhost
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start"]
